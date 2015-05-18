@@ -86,17 +86,17 @@ class LinkandcreateController extends OntoWiki_Controller_Component
             return $data;
         }
 
-        $query = "SELECT DISTINCT ?p ?range ?oneOf WHERE " . PHP_EOL;
-        $query.= " " . PHP_EOL;
-        $query.= "{ " . PHP_EOL;
-        $query.= "  ?s ?p ?o . " . PHP_EOL;
-        $query.= "  ?s a <" . $class . "> . " . PHP_EOL;
-        $query.= "  ?p <" . EF_RDFS_RANGE . "> ?range . " . PHP_EOL;
-        $query.= "  OPTIONAL " . PHP_EOL;
-        $query.= "  { " . PHP_EOL;
-        $query.= "    ?range <" . EF_OWL_ONEOF . "> ?oneOf . " . PHP_EOL;        $data = array();
-        $query.= "  } " . PHP_EOL;
-        $query.= "} " . PHP_EOL;
+        $query = 'SELECT DISTINCT ?p ?range ?oneOf WHERE ' . PHP_EOL;
+        $query.= ' ' . PHP_EOL;
+        $query.= '{ ' . PHP_EOL;
+        $query.= '  ?s ?p ?o . ' . PHP_EOL;
+        $query.= '  ?s a <' . $class . '> . ' . PHP_EOL;
+        $query.= '  ?p <' . EF_RDFS_RANGE . '> ?range . ' . PHP_EOL;
+        $query.= '  OPTIONAL ' . PHP_EOL;
+        $query.= '  { ' . PHP_EOL;
+        $query.= '    ?range <' . EF_OWL_ONEOF . '> ?oneOf . ' . PHP_EOL;        $data = array();
+        $query.= '  } ' . PHP_EOL;
+        $query.= '} ' . PHP_EOL;
 
         $results = $store->sparqlQuery($query);
 
