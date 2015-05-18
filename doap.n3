@@ -42,6 +42,7 @@
           :classUri <http://xmlns.com/foaf/0.1/Document> ;
       ]
   ];
+  :useWithTemplates "1" ;
   :useModuleWithoutTypeCheck "1" ;
 
 # module

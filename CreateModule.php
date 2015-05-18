@@ -71,7 +71,12 @@ class CreateModule extends OntoWiki_Module
 
         $data['linkData'] = $event->data;
 
-        require_once('LinkandcreateController.php');
+        if ((boolean)$this->_privateConfig->useWithTemplates === true) {
+            $data['linkData'] = LinkandcreateController::getCandidatesThroughTemplates($selectedResource);
+        } else {
+            $data['linkData'] = LinkandcreateController::getLinkCandidates($selectedResource);
+        }
+
         return $this->render('linkandcreate/linkandcreate', $data);
     }
 
