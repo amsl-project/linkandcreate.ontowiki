@@ -70,12 +70,18 @@ class LinkandcreateController extends OntoWiki_Controller_Component
     /*
      * checks the resource types agains the configured patterns
      */
-    public static function getLinkCandidates($resourceObject)
+    public static function getLinkCandidates($resourceObject, $hideProperties)
     {
         $owApp       = OntoWiki::getInstance();
         $store       = $owApp->erfurt->getStore();
         $rModel      = $resourceObject->getMemoryModel();
         $titleHelper = new OntoWiki_Model_TitleHelper();
+
+        $temp = array();
+        foreach ($hideProperties as $name) {
+                $temp[$name['classUri']] = '';
+        }
+        $hideProperties = $temp;
 
         $values = $rModel->getValues($resourceObject->getUri(),EF_RDF_TYPE);
         $data = array();
@@ -108,6 +114,7 @@ class LinkandcreateController extends OntoWiki_Controller_Component
             if (strpos($result['range'],'XMLSchema#') === false
                 && $result['oneOf'] === ''
                 && $result['p'] !== EF_RDF_TYPE
+                && !isset($hideProperties[$result['p']])
             ) {
                 $data[] = array(
                     'property'      => $result['p'],

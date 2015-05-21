@@ -27,6 +27,15 @@
 :this :path "uploads" ;
   owconfig:config [
       a owconfig:Config;
+      owconfig:id "hideProperties";
+      owconfig:config [
+          a owconfig:Config;
+          owconfig:id "Document";
+          :classUri <http://example.com/property> ;
+      ]
+  ];
+  owconfig:config [
+      a owconfig:Config;
       owconfig:id "enableForTypes";
       owconfig:config [
           a owconfig:Config;

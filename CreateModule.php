@@ -21,7 +21,29 @@ class CreateModule extends OntoWiki_Module
      */
 
     private $_types = array();
+    private $_hideProperties = array();
     private $_useWithoutTypeCheck = true;
+
+    /**
+     * Constructor
+     */
+    public function init()
+    {
+        $config = $this->_privateConfig;
+
+        if (isset($config->useModuleWithoutTypeCheck)) {
+            $this->_useWithoutTypeCheck = (boolean)$config->useModuleWithoutTypeCheck;
+        }
+
+        if ($this->_useWithoutTypeCheck === false  && isset($config->enableForTypes)) {
+            $this->_types = $config->enableForTypes->toArray();
+        }
+
+        if (isset($config->hideProperties)) {
+            $this->_hideProperties = $config->hideProperties->toArray();
+        }
+
+    }
 
     public function getTitle()
     {
@@ -41,7 +63,10 @@ class CreateModule extends OntoWiki_Module
 
         $data = array();
         $data['resourceUri'] = $selectedResource->getUri();
-        $data['linkData']    = LinkandcreateController::getLinkCandidates($selectedResource);
+        $data['linkData']    = LinkandcreateController::getLinkCandidates(
+            $selectedResource,
+            $this->_hideProperties
+        );
 
         require_once('LinkandcreateController.php');
         return $this->render('linkandcreate/linkandcreate', $data);
@@ -54,10 +79,6 @@ class CreateModule extends OntoWiki_Module
     {
         $resource = $this->_owApp->selectedResource;
         $rModel   = $resource->getMemoryModel();
-
-        if ($this->_useWithoutTypeCheck === true) {
-            return true;
-        }
 
         // search with each expression using the preg matchtype
         foreach ($this->_types as $type) {
