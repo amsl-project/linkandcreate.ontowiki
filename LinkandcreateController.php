@@ -120,12 +120,18 @@ class LinkandcreateController extends OntoWiki_Controller_Component
     /*
      * tries to find object properties (plus their ranges) used in templates
      */
-    public static function getCandidatesThroughTemplates($resourceObject)
+    public static function getCandidatesThroughTemplates($resourceObject, $hideProperties)
     {
         $owApp = OntoWiki::getInstance();
         $store = $owApp->erfurt->getStore();
         $rModel = $resourceObject->getMemoryModel();
         $titleHelper = new OntoWiki_Model_TitleHelper();
+
+        $temp = array();
+        foreach ($hideProperties as $name) {
+            $temp[$name['classUri']] = '';
+        }
+        $hideProperties = $temp;
 
         $values = $rModel->getValues($resourceObject->getUri(), EF_RDF_TYPE);
         $data = array();
@@ -166,6 +172,7 @@ class LinkandcreateController extends OntoWiki_Controller_Component
             if (strpos($result['range'], 'XMLSchema#') === false
                 && $result['oneOf'] === ''
                 && $result['property'] !== EF_RDF_TYPE
+                && !isset($hideProperties[$result['property']])
             ) {
                 $data[] = array(
                     'property' => $result['property'],
