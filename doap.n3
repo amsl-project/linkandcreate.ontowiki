@@ -13,6 +13,7 @@
   owconfig:enabled "true"^^xsd:boolean ;
   doap:description "Create a new resource and link to it from extistent resource" ;
   rdfs:label "Link and Create";
+  owconfig:pluginEvent event:onResourceShowRanges ;
   doap:name "linkandcreate" .
 
 # general properties

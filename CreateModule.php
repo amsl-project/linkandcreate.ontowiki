@@ -63,10 +63,13 @@ class CreateModule extends OntoWiki_Module
 
         $data = array();
         $data['resourceUri'] = $selectedResource->getUri();
-        $data['linkData']    = LinkandcreateController::getLinkCandidates(
-            $selectedResource,
-            $this->_hideProperties
-        );
+
+        $event = new Erfurt_Event('onResourceShowRanges');
+        $event->resource = $selectedResource;
+        $event->hideProperties = $this->_hideProperties;
+        $event->trigger();
+
+        $data['linkData'] = $event->data;
 
         require_once('LinkandcreateController.php');
         return $this->render('linkandcreate/linkandcreate', $data);
@@ -77,6 +80,10 @@ class CreateModule extends OntoWiki_Module
      */
     private function _checkClass()
     {
+        if ($this->_useWithoutTypeCheck === true) {
+            return true;
+        }
+
         $resource = $this->_owApp->selectedResource;
         $rModel   = $resource->getMemoryModel();
 
