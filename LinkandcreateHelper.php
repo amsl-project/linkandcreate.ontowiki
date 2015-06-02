@@ -34,13 +34,6 @@ class LinkandcreateHelper extends OntoWiki_Component_Helper
             $this->view->clearVars();
         }
 
-        // if a model has been selected
-        if ($owApp->selectedModel != null) {
-            // register with extras menu
-            //$translate  = $owApp->translate;
-            //$url        = new OntoWiki_Url(array('controller' => 'linkandcreate', 'action' => 'start'));
-        }
-
         $this->view->headScript()->appendFile($this->_config->urlBase . 'extensions/linkandcreate/templates/linkandcreate/js/linkandcreate.js');
     }
 }

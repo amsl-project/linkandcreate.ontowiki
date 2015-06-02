@@ -37,9 +37,11 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
         $hideProperties = $event->hideProperties;
 
         $temp = array();
+
         foreach ($hideProperties as $name) {
             $temp[$name['classUri']] = '';
         }
+
         $hideProperties = $temp;
 
         $values = $rModel->getValues($resourceObject->getUri(), EF_RDF_TYPE);
@@ -60,7 +62,6 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
         $query.= '  OPTIONAL ' . PHP_EOL;
         $query.= '  { ' . PHP_EOL;
         $query.= '      ?range <' . EF_OWL_ONEOF . '> ?oneOf . ' . PHP_EOL;
-        //$query.= '    ?range <' . EF_RDF_FIRST . '> ?testCollection . ' . PHP_EOL;
         $query.= '  } ' . PHP_EOL;
         $query.= '} ' . PHP_EOL;
 
@@ -86,15 +87,16 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
         }
 
         $delete = array();
+
         foreach($data as $key => $range) {
-            $query = 'SELECT ?testCollection WHERE ';
+            $query  = 'SELECT ?testCollection WHERE ';
             $query .= '{ ' . PHP_EOL;
             $query .= '  <' . $range['class'] . '> ?p ?testCollection . ' . PHP_EOL;
             $query .= '  ?testCollection <' . EF_RDF_FIRST . '> ?test . ' . PHP_EOL;
             $query .= '} ' . PHP_EOL;
             $ranges = $this->_model->sparqlQuery($query);
 
-            if (count($ranges) >= 0) {
+            if (count($ranges) > 0) {
                 $delete[] = $key;
                 $rangeset = $this->_getCollection($ranges[0]['testCollection']);
                 foreach ($rangeset as $foundRange) {
@@ -105,6 +107,7 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
                         'classLabel' => $titleHelper->getTitle($foundRange)
                     );
                 }
+
                 foreach ($delete as $key) {
                     unset($data[$key]);
                 }
@@ -125,7 +128,7 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
         $owApp = OntoWiki::getInstance();
         $result = $this->_model->sparqlQuery($query);
 
-        if (count($result) >= 0) {
+        if (count($result) > 0) {
             $temp = array();
             $temp[] = $result[0]['first'];
             if ($result[0]['rest'] !== EF_RDF_NIL) {

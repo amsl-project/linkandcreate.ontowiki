@@ -15,10 +15,6 @@
  */
 class LinkandcreateController extends OntoWiki_Controller_Component
 {
-    public function startAction()
-    {
-        return;
-    }
 
     /*
      * This action can be used to add a predicate and object to the selected Resource.
