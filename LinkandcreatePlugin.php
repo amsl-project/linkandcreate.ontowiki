@@ -15,7 +15,8 @@
 class LinkandcreatePlugin extends OntoWiki_Plugin
 {
 
-    private $_model = null;
+    private $_model  = null;
+    private $_ranges = array();
     /*
      * our event method
      */
@@ -98,8 +99,8 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
 
             if (count($ranges) > 0) {
                 $delete[] = $key;
-                $rangeset = $this->_getCollection($ranges[0]['testCollection']);
-                foreach ($rangeset as $foundRange) {
+                $this->_getCollection($ranges[0]['testCollection']);
+                foreach ($this->_ranges as $foundRange) {
                     $data[] = array(
                         'property' => $range['property'],
                         'propertyLabel' => $titleHelper->getTitle($range['property']),
@@ -107,11 +108,11 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
                         'classLabel' => $titleHelper->getTitle($foundRange)
                     );
                 }
-
-                foreach ($delete as $key) {
-                    unset($data[$key]);
-                }
             }
+        }
+
+        foreach ($delete as $key) {
+            unset($data[$key]);
         }
 
         $event->data = $data;
@@ -125,16 +126,18 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
         $query.= ' <' . $preUri . '> <' . EF_RDF_REST . '> ?rest . ' . PHP_EOL;
         $query.= ' } ' . PHP_EOL;
 
-        $owApp = OntoWiki::getInstance();
         $result = $this->_model->sparqlQuery($query);
+        unset($query);
 
         if (count($result) > 0) {
-            $temp = array();
-            $temp[] = $result[0]['first'];
+            $this->_ranges[] = $result[0]['first'];
             if ($result[0]['rest'] !== EF_RDF_NIL) {
-                return array_merge_recursive($temp, $this->_getCollection($result[0]['rest']));
+                $nextUri = $result[0]['rest'];
+                unset($result);
+                $this->_getCollection($nextUri);
             } else {
-                return $temp;
+                unset($result);
+                return;
             }
         }
     }
