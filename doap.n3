@@ -20,6 +20,7 @@
   owconfig:templates "templates" ;
   owconfig:languages "languages/" ;
   owconfig:authorLabel "UB Leipzig" ;
+  owconfig:pluginEvent event:onResourceShowRangesWithTemplates ;
   owconfig:pluginEvent event:onResourceShowRanges .
 
 # config
@@ -43,6 +44,18 @@
       ]
   ];
   :useWithTemplates "1" ;
+  owconfig:config [
+      a owconfig:Config;
+      owconfig:id "templateSettings";
+      owconfig:config [
+          a owconfig:Config;
+          owconfig:id "uris";
+          :templateUri           <http://vocab.ub.uni-leipzig.de/terms/Template> ;
+          :bindsClassUri         <http://vocab.ub.uni-leipzig.de/terms/bindsClass> ;
+          :providedPropertiesUri <http://vocab.ub.uni-leipzig.de/terms/providedProperty> ;
+          :optionalPropertiesUri <http://vocab.ub.uni-leipzig.de/terms/optionalProperty> ;
+      ]
+  ];
   :useModuleWithoutTypeCheck "1" ;
 
 # module

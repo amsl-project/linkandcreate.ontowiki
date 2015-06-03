@@ -23,6 +23,8 @@ class CreateModule extends OntoWiki_Module
     private $_types = array();
     private $_hideProperties = array();
     private $_useWithoutTypeCheck = true;
+    private $_useWithTemplates = array();
+    private $_templateSettings = array();
 
     /**
      * Constructor
@@ -43,6 +45,13 @@ class CreateModule extends OntoWiki_Module
             $this->_hideProperties = $config->hideProperties->toArray();
         }
 
+        if (isset($config->useWithTemplates)) {
+            $this->_useWithTemplates = $config->useWithTemplates;
+        }
+
+        if (isset($config->templateSettings)) {
+            $this->_templateSettings = $config->templateSettings->toArray();
+        }
     }
 
     public function getTitle()
@@ -72,13 +81,19 @@ class CreateModule extends OntoWiki_Module
         $data['linkData'] = $event->data;
 
         if ((boolean)$this->_privateConfig->useWithTemplates === true) {
-            $data['linkData'] = LinkandcreateController::getCandidatesThroughTemplates(
-                $selectedResource,
-                $this->_hideProperties
-            );
+            $event = new Erfurt_Event('onResourceShowRangesWithTemplates');
+            $event->resource = $selectedResource;
+            $event->hideProperties = $this->_hideProperties;
+            $event->templateSettings = $this->_templateSettings;
         } else {
             $data['linkData'] = LinkandcreateController::getLinkCandidates($selectedResource);
+            $event = new Erfurt_Event('onResourceShowRanges');
+            $event->resource = $selectedResource;
+            $event->hideProperties = $this->_hideProperties;
         }
+
+        $event->trigger();
+        $data['linkData'] = $event->data;
 
         return $this->render('linkandcreate/linkandcreate', $data);
     }
@@ -117,5 +132,3 @@ class CreateModule extends OntoWiki_Module
         return false;
     }
 }
-
-
