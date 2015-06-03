@@ -54,7 +54,7 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
             return $data;
         }
 
-        $query = 'SELECT DISTINCT ?p ?range ?oneOf ?testCollection WHERE ' . PHP_EOL;
+        $query = 'SELECT DISTINCT ?p ?range ?oneOf WHERE ' . PHP_EOL;
         $query.= ' ' . PHP_EOL;
         $query.= '{ ' . PHP_EOL;
         $query.= '  ?s a <' . $class . '> . ' . PHP_EOL;
@@ -136,7 +136,6 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
                 unset($result);
                 $this->_getCollection($nextUri);
             } else {
-                unset($result);
                 return;
             }
         }
