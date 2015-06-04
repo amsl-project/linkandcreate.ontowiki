@@ -11,18 +11,16 @@
 <> foaf:primaryTopic :this .
 :this a doap:Project ;
   owconfig:enabled "true"^^xsd:boolean ;
-  doap:description "Create a new resource and link to it from extistent resource" ;
+  doap:description "On resource view you can create a new resource and link to it in one step" ;
   rdfs:label "Link and Create";
-  owconfig:pluginEvent event:onResourceShowRanges ;
   doap:name "linkandcreate" .
 
 # general properties
 :this owconfig:privateNamespace <http://ns.ontowiki.net/Extensions/linkandcreate/> ;
   owconfig:templates "templates" ;
   owconfig:languages "languages/" ;
-  owconfig:defaultAction "start" ;
   owconfig:authorLabel "UB Leipzig" ;
-  owconfig:pluginEvent event:onCreateNewInstanceFromHere .
+  owconfig:pluginEvent event:onResourceShowRanges .
 
 # config
 :this :path "uploads" ;
@@ -31,7 +29,7 @@
       owconfig:id "hideProperties";
       owconfig:config [
           a owconfig:Config;
-          owconfig:id "Document";
+          owconfig:id "Example";
           :classUri <http://example.com/property> ;
       ]
   ];
@@ -45,8 +43,6 @@
       ]
   ];
   :useModuleWithoutTypeCheck "1" ;
-  :class <http://localhost/OntoWiki/Config/File> ;
-  :model <http://localhost/OntoWiki/Config/toModel> .
 
 # module
 :this owconfig:hasModule :Create .

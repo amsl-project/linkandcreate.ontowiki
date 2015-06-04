@@ -26,7 +26,7 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
     }
 
     /*
-     * here we add new import actions
+     * this methods analyzes properties and tries to find ranges for object properties
      */
     private function showRanges($event)
     {
@@ -119,6 +119,12 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
         return;
     }
 
+    /**
+     * @param $preUri the URI of the predecessor
+     * @return the result is written to $this->_ranges (array())
+     * This methods searches for members of a collection
+     * The method should be called with the first member in $preUri
+     */
     private function _getCollection($preUri) {
         $query = 'SELECT ?first ?rest WHERE ' . PHP_EOL;
         $query.= ' { ' . PHP_EOL;
