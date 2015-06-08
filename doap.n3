@@ -42,7 +42,7 @@
           :classUri <http://xmlns.com/foaf/0.1/Document> ;
       ]
   ];
-  :useModuleWithoutTypeCheck "1" ;
+  :useModuleWithoutTypeCheck "1" .
 
 # module
 :this owconfig:hasModule :Create .
