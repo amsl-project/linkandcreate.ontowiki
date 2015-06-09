@@ -73,20 +73,12 @@ class CreateModule extends OntoWiki_Module
         $data = array();
         $data['resourceUri'] = $selectedResource->getUri();
 
-        $event = new Erfurt_Event('onResourceShowRanges');
-        $event->resource = $selectedResource;
-        $event->hideProperties = $this->_hideProperties;
-        $event->trigger();
-
-        $data['linkData'] = $event->data;
-
         if ((boolean)$this->_privateConfig->useWithTemplates === true) {
             $event = new Erfurt_Event('onResourceShowRangesWithTemplates');
             $event->resource = $selectedResource;
             $event->hideProperties = $this->_hideProperties;
             $event->templateSettings = $this->_templateSettings;
         } else {
-            $data['linkData'] = LinkandcreateController::getLinkCandidates($selectedResource);
             $event = new Erfurt_Event('onResourceShowRanges');
             $event->resource = $selectedResource;
             $event->hideProperties = $this->_hideProperties;
