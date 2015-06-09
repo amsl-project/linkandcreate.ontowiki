@@ -20,6 +20,7 @@
   owconfig:templates "templates" ;
   owconfig:languages "languages/" ;
   owconfig:authorLabel "UB Leipzig" ;
+  owconfig:pluginEvent event:onResourceShowRangesWithTemplates ;
   owconfig:pluginEvent event:onResourceShowRanges .
 
 # config
@@ -29,20 +30,33 @@
       owconfig:id "hideProperties";
       owconfig:config [
           a owconfig:Config;
-          owconfig:id "Example";
-          :classUri <http://example.com/property> ;
+          owconfig:id "Example Property";
+          :propertyUri <http://example.com/propertyUri> ;
       ]
   ];
+  :useModuleWithoutTypeCheck "1" ;
   owconfig:config [
       a owconfig:Config;
       owconfig:id "enableForTypes";
       owconfig:config [
           a owconfig:Config;
-          owconfig:id "Document";
-          :classUri <http://xmlns.com/foaf/0.1/Document> ;
+          owconfig:id "Example Class";
+          :classUri <http://example.com/classUri> ;
       ]
   ];
-  :useModuleWithoutTypeCheck "1" .
+  :useWithTemplates "0" ;
+  owconfig:config [
+      a owconfig:Config;
+      owconfig:id "templateSettings";
+      owconfig:config [
+          a owconfig:Config;
+          owconfig:id "uris";
+          :templateUri           <http://vocab.ub.uni-leipzig.de/terms/Template> ;
+          :bindsClassUri         <http://vocab.ub.uni-leipzig.de/terms/bindsClass> ;
+          :providedPropertiesUri <http://vocab.ub.uni-leipzig.de/terms/providedProperty> ;
+          :optionalPropertiesUri <http://vocab.ub.uni-leipzig.de/terms/optionalProperty> ;
+      ]
+  ].
 
 # module
 :this owconfig:hasModule :Create .

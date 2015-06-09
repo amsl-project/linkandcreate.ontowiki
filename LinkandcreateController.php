@@ -63,4 +63,126 @@ class LinkandcreateController extends OntoWiki_Controller_Component
         }
     }
 
+    /*
+     * checks the resource types agains the configured patterns
+     */
+    public static function getLinkCandidates($resourceObject)
+    {
+        $owApp       = OntoWiki::getInstance();
+        $store       = $owApp->erfurt->getStore();
+        $rModel      = $resourceObject->getMemoryModel();
+        $titleHelper = new OntoWiki_Model_TitleHelper();
+
+        $values = $rModel->getValues($resourceObject->getUri(),EF_RDF_TYPE);
+        $data = array();
+
+        if (count($values) === 1) {
+            $class = $values[0]['value'];
+        } else {
+            return $data;
+        }
+
+        $query = "SELECT DISTINCT ?p ?range ?oneOf WHERE " . PHP_EOL;
+        $query.= " " . PHP_EOL;
+        $query.= "{ " . PHP_EOL;
+        $query.= "  ?s ?p ?o . " . PHP_EOL;
+        $query.= "  ?s a <" . $class . "> . " . PHP_EOL;
+        $query.= "  ?p <" . EF_RDFS_RANGE . "> ?range . " . PHP_EOL;
+        $query.= "  OPTIONAL " . PHP_EOL;
+        $query.= "  { " . PHP_EOL;
+        $query.= "    ?range <" . EF_OWL_ONEOF . "> ?oneOf . " . PHP_EOL;        $data = array();
+        $query.= "  } " . PHP_EOL;
+        $query.= "} " . PHP_EOL;
+
+        $results = $store->sparqlQuery($query);
+
+        if (count($results) === 0) {
+            return $data;
+        }
+
+        foreach ($results as $result) {
+            if (strpos($result['range'],'XMLSchema#') === false
+                && $result['oneOf'] === ''
+                && $result['p'] !== EF_RDF_TYPE
+            ) {
+                $data[] = array(
+                    'property'      => $result['p'],
+                    'propertyLabel' => $titleHelper->getTitle($result['p']),
+                    'class'         => $result['range'],
+                    'classLabel'    => $titleHelper->getTitle($result['range'])
+                );
+            }
+        }
+
+        return $data;
+    }
+
+    /*
+     * tries to find object properties (plus their ranges) used in templates
+     */
+    public static function getCandidatesThroughTemplates($resourceObject, $hideProperties)
+    {
+        $owApp = OntoWiki::getInstance();
+        $store = $owApp->erfurt->getStore();
+        $rModel = $resourceObject->getMemoryModel();
+        $titleHelper = new OntoWiki_Model_TitleHelper();
+
+        $temp = array();
+        foreach ($hideProperties as $name) {
+            $temp[$name['classUri']] = '';
+        }
+        $hideProperties = $temp;
+
+        $values = $rModel->getValues($resourceObject->getUri(), EF_RDF_TYPE);
+        $data = array();
+
+        if (count($values) === 1) {
+            $class = $values[0]['value'];
+        } else {
+            return $data;
+        }
+
+        $nsTerms = 'http://vocab.ub.uni-leipzig.de/terms/';
+
+        $query = 'SELECT DISTINCT ?property ?range ?oneOf WHERE ' . PHP_EOL;
+        $query .= ' ' . PHP_EOL;
+        $query .= '{ ' . PHP_EOL;
+        $query .= '  ?s ?p ?o . ' . PHP_EOL;
+        $query .= '  ?s a <' . $nsTerms . 'Template> . ' . PHP_EOL;
+        $query .= '  ?s <' . $nsTerms . 'bindsClass' . '> <' . $class . '> . ' . PHP_EOL;
+        $query .= '  { ' . PHP_EOL;
+        $query .= '    ?s <' . $nsTerms . 'providesProperty' . '> ?property . ' . PHP_EOL;
+        $query .= '  } UNION { ' . PHP_EOL;
+        $query .= '    ?s <' . $nsTerms . 'optionalProperty' . '> ?property . ' . PHP_EOL;
+        $query .= '  } ' . PHP_EOL;
+        $query .= '  ?property <' . EF_RDFS_RANGE . '> ?range . ' . PHP_EOL;
+        $query .= '  OPTIONAL ' . PHP_EOL;
+        $query .= '  { ' . PHP_EOL;
+        $query .= '    ?range <' . EF_OWL_ONEOF . '> ?oneOf . ' . PHP_EOL;
+        $query .= '  } ' . PHP_EOL;
+        $query .= '} ' . PHP_EOL;
+
+        $results = $store->sparqlQuery($query);
+
+        if (count($results) === 0) {
+            return $data;
+        }
+
+        foreach ($results as $result) {
+            if (strpos($result['range'], 'XMLSchema#') === false
+                && $result['oneOf'] === ''
+                && $result['property'] !== EF_RDF_TYPE
+                && !isset($hideProperties[$result['property']])
+            ) {
+                $data[] = array(
+                    'property' => $result['property'],
+                    'propertyLabel' => $titleHelper->getTitle($result['property']),
+                    'class' => $result['range'],
+                    'classLabel' => $titleHelper->getTitle($result['range'])
+                );
+            }
+        }
+
+        return $data;
+    }
 }
