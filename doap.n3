@@ -53,7 +53,7 @@
           owconfig:id "uris";
           :templateUri           <http://vocab.ub.uni-leipzig.de/terms/Template> ;
           :bindsClassUri         <http://vocab.ub.uni-leipzig.de/terms/bindsClass> ;
-          :providedPropertiesUri <http://vocab.ub.uni-leipzig.de/terms/providedProperty> ;
+          :providedPropertiesUri <http://vocab.ub.uni-leipzig.de/terms/providesProperty> ;
           :optionalPropertiesUri <http://vocab.ub.uni-leipzig.de/terms/optionalProperty> ;
       ]
   ].

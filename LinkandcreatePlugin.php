@@ -49,7 +49,7 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
         $temp = array();
 
         foreach ($hideProperties as $name) {
-            $temp[$name['classUri']] = '';
+            $temp[$name['propertyUri']] = '';
         }
 
         $hideProperties = $temp;
@@ -169,7 +169,7 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
         $temp = array();
 
         foreach ($hideProperties as $name) {
-            $temp[$name['classUri']] = '';
+            $temp[$name['propertyUri']] = '';
         }
 
         $hideProperties = $temp;
@@ -209,7 +209,7 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
         foreach ($results as $result) {
             if (strpos($result['range'], 'XMLSchema#') === false
                 && $result['oneOf'] === ''
-                && $result['propertey'] !== EF_RDF_TYPE
+                && $result['property'] !== EF_RDF_TYPE
                 && !isset($hideProperties[$result['property']])
             ) {
                 $data[] = array(
