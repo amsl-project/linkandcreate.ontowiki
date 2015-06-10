@@ -29,20 +29,20 @@
       owconfig:id "hideProperties";
       owconfig:config [
           a owconfig:Config;
-          owconfig:id "Example";
-          :classUri <http://example.com/property> ;
+          owconfig:id "Example Property";
+          :propertyUri <http://example.com/property> ;
       ]
   ];
+  :useModuleWithoutTypeCheck "1" ;
   owconfig:config [
       a owconfig:Config;
       owconfig:id "enableForTypes";
       owconfig:config [
           a owconfig:Config;
-          owconfig:id "Document";
-          :classUri <http://xmlns.com/foaf/0.1/Document> ;
+          owconfig:id "Example Class";
+          :classUri <http://example.com/class> ;
       ]
-  ];
-  :useModuleWithoutTypeCheck "1" .
+  ].
 
 # module
 :this owconfig:hasModule :Create .

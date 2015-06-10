@@ -40,7 +40,7 @@ class LinkandcreatePlugin extends OntoWiki_Plugin
         $temp = array();
 
         foreach ($hideProperties as $name) {
-            $temp[$name['classUri']] = '';
+            $temp[$name['propertyUri']] = '';
         }
 
         $hideProperties = $temp;
