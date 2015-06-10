@@ -25,14 +25,19 @@ $url  = new OntoWiki_Url(
 <form action="<?php echo $url ?>" method="post">
     <select id="linkCandidates" name="candidates" >
         <option value="ignore">Please select a connection</option>
-        <?php foreach ($this->linkData as $canditate): ?>
+        <?php foreach ($this->linkData as $candidate): ?>
+            <?php $string = $candidate['propertyLabel'] . ' zu ' . $candidate['classLabel'] ?>
             <option value="<?php echo($this->resourceUri . 'öÖ'
-                . $canditate['property'] . 'öÖ'
-                . $canditate['class'] )
-            ?>">
-                <?php echo $canditate['propertyLabel'] ?>
-                 zu
-                <?php echo $canditate['classLabel'] ?>
+                . $candidate['property'] . 'öÖ'
+                . $candidate['class'] )
+            ?>"
+                title="<?php echo $string ?>">
+                <?php if (strlen($string) < 32):
+                        echo $string;
+                    else:
+                        echo(substr($string, 0, 32) . '...');
+                    endif
+                ?>
             </option>
         <?php endforeach ?>
     </select>
