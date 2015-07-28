@@ -1,13 +1,14 @@
 <?php
 /**
- * This file is part of the {@link http://ontowiki.net OntoWiki} project.
+ * This file is part of the {@link http://amsl.technology amsl} project.
  *
- * @copyright Copyright (c) 2011, {@link http://aksw.org AKSW}
+ * @author Norman Radtke
+ * @copyright Copyright (c) 2015, {@link http://ub.uni-leipzig.de Leipzig University Library}
  * @license http://opensource.org/licenses/gpl-license.php GNU General Public License (GPL)
  */
 
 /**
- * Create resource module for the OntoWiki files extension
+ * Create resource module for the linkandcreate extension
  *
  * @category OntoWiki
  * @package  OntoWiki_extensions_linkandcreate

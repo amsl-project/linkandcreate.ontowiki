@@ -1,8 +1,10 @@
 <?php
 /**
- * This file is part of the {@link http://ontowiki.net OntoWiki} project.
+ * This file is part of the {@link http://amsl.technology amsl} project.
  *
- * @license   http://opensource.org/licenses/gpl-license.php GNU General Public License (GPL)
+ * @author Norman Radtke
+ * @copyright Copyright (c) 2015, {@link http://ub.uni-leipzig.de Leipzig University Library}
+ * @license http://opensource.org/licenses/gpl-license.php GNU General Public License (GPL)
  */
 
 /**
@@ -10,7 +12,6 @@
  *
  * @category   OntoWiki
  * @package    Extensions_Linkandcreate
- * @author     Norman Radtke <radtke@informatik.uni-leipzig.de>
  */
 class LinkandcreatePlugin extends OntoWiki_Plugin
 {
