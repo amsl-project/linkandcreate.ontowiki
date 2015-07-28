@@ -1,5 +1,12 @@
 <?php
 /**
+ * This file is part of the {@link http://amsl.technology amsl} project.
+ *
+ * @author Norman Radtke
+ * @copyright Copyright (c) 2015, {@link http://ub.uni-leipzig.de Leipzig University Library}
+ * @license http://opensource.org/licenses/gpl-license.php GNU General Public License (GPL)
+ */
+/**
  * This file is part of the {@link http://ontowiki.net OntoWiki} project.
  *
  * @copyright Copyright (c) 2012, {@link http://aksw.org AKSW}
@@ -7,11 +14,10 @@
  */
 
 /**
- * Controller for the OntoWiki files extension
+ * Controller for the linkandcreate extension
  *
  * @category OntoWiki
  * @package  OntoWiki_extensions_files
- * @author   Norman Radtke <norman.radtke@gmail.com>
  */
 class LinkandcreateController extends OntoWiki_Controller_Component
 {
