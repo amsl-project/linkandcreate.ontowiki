@@ -24,7 +24,7 @@ $url  = new OntoWiki_Url(
 ?>
 <form action="<?php echo $url ?>" method="post">
     <select id="linkCandidates" name="candidates" >
-        <option value="ignore">Please select a connection</option>
+        <option value="ignore"><?php echo $this->_('Please select a connection'); ?></option>
         <?php foreach ($this->linkData as $candidate): ?>
             <?php $string = $candidate['propertyLabel'] . ' zu ' . $candidate['classLabel'] ?>
             <option value="<?php echo($this->resourceUri . 'öÖ'
@@ -41,5 +41,5 @@ $url  = new OntoWiki_Url(
             </option>
         <?php endforeach ?>
     </select>
-    <a class="minibutton" id="linkandcreateSubmit">Submit</a>
+    <a class="minibutton" id="linkandcreateSubmit"><?php echo $this->_('Submit'); ?></a>
 </form>
