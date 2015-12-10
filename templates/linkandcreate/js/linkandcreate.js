@@ -87,7 +87,7 @@ function createAndLink(fromResource, useProperty, type, dataCallback) {
                         $.ajax({
                             type: "POST",
                             url: urlBase + 'linkandcreate/linktriple',
-                            data: {predicate: useProperty, object: objectUri }
+                            data: {subject: fromResource, predicate: useProperty, object: objectUri }
                         });
                         // HACK: reload whole page after 500 ms
                         window.setTimeout(function () {

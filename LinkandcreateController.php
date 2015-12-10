@@ -33,7 +33,7 @@ class LinkandcreateController extends OntoWiki_Controller_Component
         $this->_helper->layout->disableLayout();
 
         if ($this->_request->isPost()) {
-            $subject   = (string)$this->_owApp->selectedResource;
+
             $post      = $this->_request->getPost();
 
             if (isset($post['predicate'])
@@ -48,7 +48,10 @@ class LinkandcreateController extends OntoWiki_Controller_Component
 
             $predicate = urldecode($post['predicate']);
             $object    = urldecode($post['object']);
-
+            $subject   = urldecode($post['subject']);
+            if($subject == null){
+                $subject   = (string)$this->_owApp->selectedResource;
+            }
             if (Erfurt_Uri::check($predicate) && Erfurt_Uri::check($object)) {
                 $this->_owApp->selectedModel->addStatement(
                     $subject,
