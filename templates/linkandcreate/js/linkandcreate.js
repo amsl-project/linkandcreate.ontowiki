@@ -29,6 +29,7 @@ $(document).ready(function() {
  * On success the method will call an action that links to the new resource
  */
 function createAndLink(fromResource, useProperty, type, dataCallback) {
+    RDFAUTHOR_START_FIX = "linkAndCreate";
     var serviceUri = urlBase + 'service/rdfauthorinit';
 
     // check if an resource is in editing mode
@@ -60,8 +61,12 @@ function createAndLink(fromResource, useProperty, type, dataCallback) {
             }
             var addPropertyValues = data['addPropertyValues'];
             var addOptionalPropertyValues = data['addOptionalPropertyValues'];
-            delete data.addPropertyValues;
-            delete data.addOptionalPropertyValues;
+            RDFAUTHOR_DISPLAY_FIX = data['displayProperties'];
+            RDFAUTHOR_DATATYPES_FIX_ADDITIONAL_DATA = data['additionalData'];
+            delete data['addPropertyValues'];
+            delete data['addOptionalPropertyValues'];
+            delete data.additionalData;
+            delete data.displayProperties;
 
             // get default resource uri for subjects in added statements (issue 673)
             // grab first object key
